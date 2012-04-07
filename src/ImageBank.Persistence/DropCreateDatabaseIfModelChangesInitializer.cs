@@ -9,8 +9,11 @@ namespace ImageBank.Persistence
         {
             base.Seed(context);
 
-            var setting = new Setting {Key = "ImagesRoot", Value = "~/Images/Upload"};
-            context.Settings.Add(setting);
+            var setting1 = new Setting { Key = "OriginalImageRoot", Value = "~/Images/Upload/Original" };
+            context.Settings.Add(setting1);
+
+            var setting2 = new Setting { Key = "MediumImageRoot", Value = "~/Images/Upload/640x427" };
+            context.Settings.Add(setting2);
 
             context.SaveChanges();
         }

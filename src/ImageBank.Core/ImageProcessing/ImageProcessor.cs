@@ -5,23 +5,22 @@ namespace ImageBank.Core.ImageProcessing
 {
     public class ImageProcessor : IImageProcessor
     {
-        public string ProcessImage(FileMode fileMode, Stream stream, string filename, string savePath)
+        public void ProcessChunkedImage(ImageChunk imageChunk, FileMode fileMode, string savePath)
         {
-            string systemFilename = GenerateSystemFilename(Path.GetExtension(filename));
             using (
-                var fs = new FileStream(Path.Combine(savePath, systemFilename),
+                var fs = new FileStream(Path.Combine(savePath, imageChunk.Filename),
                                         fileMode))
             {
-                var buffer = new byte[stream.Length];
-                stream.Read(buffer, 0, buffer.Length);
+                var buffer = new byte[imageChunk.InputStream.Length];
+                imageChunk.InputStream.Read(buffer, 0, buffer.Length);
                 fs.Write(buffer, 0, buffer.Length);
             }
-            return systemFilename;
         }
 
-        private string GenerateSystemFilename(string extension)
+        public void GenerateMipMaps()
         {
-            return Guid.NewGuid().ToString() + extension;
+            //todo:
+            throw new NotImplementedException();
         }
     }
 }

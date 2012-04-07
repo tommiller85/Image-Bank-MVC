@@ -5,7 +5,6 @@ namespace ImageBank.Core
     public class Setting
     {
         [Key]
-        [Required]
         public string Key { get; set; }
 
         [Required]

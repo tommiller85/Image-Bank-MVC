@@ -10,9 +10,14 @@ namespace ImageBank.Persistence
         {
         }
 
-        public string ImageRoot
+        public string OriginalImageRoot
         {
-            get { return Context.Settings.Single(s => s.Key == "ImageRoot").Value; }
+            get { return Context.Settings.Single(s => s.Key == "OriginalImageRoot").Value; }
+        }
+
+        public string MediumImageRoot
+        {
+            get { return Context.Settings.Single(s => s.Key == "MediumImageRoot").Value; }
         }
     }
 }

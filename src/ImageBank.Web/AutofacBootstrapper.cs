@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
-using ImageBank.Core;
 using ImageBank.Core.ImageProcessing;
 using ImageBank.Persistence;
 
@@ -30,6 +29,9 @@ namespace ImageBank.Web
 
             containerBuilder.RegisterType<ImageRepository>()
                 .As<IImageRepository>();
+
+            containerBuilder.RegisterType<SettingRepository>()
+                .As<ISettingRepository>();
         }
     }
 }

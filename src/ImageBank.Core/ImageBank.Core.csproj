@@ -42,9 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImageProcessing\IImageResizer.cs" />
+    <Compile Include="ImageProcessing\ImageChunk.cs" />
     <Compile Include="ImageProcessing\IImageProcessor.cs" />
     <Compile Include="Image.cs" />
-    <Compile Include="ImageProcessing\ImageLibrary.cs" />
+    <Compile Include="ImageProcessing\ImageResizer.cs" />
     <Compile Include="ImageProcessing\ImageProcessor.cs" />
     <Compile Include="ImageProcessing\MipMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

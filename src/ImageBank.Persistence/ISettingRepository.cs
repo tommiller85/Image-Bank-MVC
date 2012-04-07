@@ -4,6 +4,7 @@ namespace ImageBank.Persistence
 {
     public interface ISettingRepository : IGenericRepository<Setting>
     {
-        string ImageRoot { get; }
+        string OriginalImageRoot { get; }
+        string MediumImageRoot { get; }
     }
 }
