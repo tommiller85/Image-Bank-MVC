@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Upload";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Upload</h2>
+
+<div id="html5_uploader">You browser doesn't support native upload. Try Firefox 3 or Safari 4.</div>
+
+<script type="text/javascript">
+$(function () {
+    // Setup html5 version
+    $("#html5_uploader").pluploadQueue({
+        // General settings
+        runtimes: 'html5',
+        url: 'upload',
+        max_file_size: '15mb',
+        chunk_size: '1mb',
+        unique_names: false,
+        filters: [
+		{ title: "Image files", extensions: "jpg,gif,png" }
+	]//,
+        // Resize images on clientside if we can
+        //resize: { width: 640, height: 427, quality: 100 }
+    });
+});
+</script>
