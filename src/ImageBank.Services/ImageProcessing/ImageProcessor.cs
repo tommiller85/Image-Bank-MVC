@@ -61,6 +61,7 @@ namespace ImageBank.Services.ImageProcessing
                                             _virtualPathFinder.ResolvePath(_settingRepository.OriginalImageRoot));
         }
 
+        //TODO: This needs refactoring and test coverage.
         private void GenerateMipMaps(ImageChunk imageChunk)
         {
             if (imageChunk.Chunks == 0 || imageChunk.Chunk == (imageChunk.Chunks - 1))

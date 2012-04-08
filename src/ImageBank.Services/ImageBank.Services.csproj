@@ -51,7 +51,6 @@
     <Compile Include="ImageProcessing\ImageChunkSaver.cs" />
     <Compile Include="ImageProcessing\ImageProcessor.cs" />
     <Compile Include="ImageProcessing\ImageResizer.cs" />
-    <Compile Include="ImageProcessing\ImageResizer2.cs" />
     <Compile Include="ImageProcessing\MipMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Virtual\IVirtualPathFinder.cs" />
