@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -9,51 +8,43 @@ namespace ImageBank.Core.ImageProcessing
 {
     public class ImageResizer : IImageResizer, IDisposable
     {
-        private System.Drawing.Image Image;
-        private System.Drawing.Image Output;
+        private System.Drawing.Image _image;
+        private System.Drawing.Image _output;
 
-        public ImageResizer(string fileName)
+        public void GenerateMipMap(string imagePathToResize, MipMap map, string uploadDir, string filename)
         {
-            LoadImage(fileName);
-        }
+            LoadImage(imagePathToResize);
 
-        public ImageResizer(Stream stream)
-        {
-            LoadImage(stream);
-        }
-
-        public List<MemoryStream> GenerateMipMaps(List<MipMap> maps)
-        {
-            if (Image == null)
+            if (_image == null)
             {
                 throw new InvalidOperationException("No Image has been loaded.");
             }
 
-            List<MemoryStream> mipmaps = new List<MemoryStream>();
-            foreach (MipMap map in maps)
+            if (_image.Width <= map.Width || _image.Height <= map.Height)
             {
-                MemoryStream stream = new MemoryStream();
-
-                if (Image.Width <= map.Width || Image.Height <= map.Height)
-                {
-                    Resize(Image.Width, Image.Height, false, map.HighQuality);
-                }
-                else
-                {
-                    Resize(map.Width, map.Height, map.PreserveAspect, map.HighQuality);
-                }
-
-                stream = Save(map.Codec, map.SaveBitDepth, map.SaveQuality);
-
-                mipmaps.Add(stream);
+                Resize(_image.Width, _image.Height, false, map.HighQuality);
+            }
+            else
+            {
+                Resize(map.Width, map.Height, map.PreserveAspect, map.HighQuality);
             }
 
-            return mipmaps;
+            Save(uploadDir, filename, map.Codec, map.SaveBitDepth, map.SaveQuality);
         }
 
-        public void Resize(int width, int height, bool preserveAspect, bool highQuality)
+        private void LoadImage(string filePath)
         {
-            if (Image == null)
+            _image = System.Drawing.Image.FromFile(filePath, true);
+        }
+
+        private void LoadImage(Stream stream)
+        {
+            _image = System.Drawing.Image.FromStream(stream, true);
+        }
+
+        private void Resize(int width, int height, bool preserveAspect, bool highQuality)
+        {
+            if (_image == null)
             {
                 throw new InvalidOperationException("No Image has been loaded.");
             }
@@ -62,17 +53,17 @@ namespace ImageBank.Core.ImageProcessing
 
             if (preserveAspect)
             {
-                newHeight = Image.Height*width/Image.Width;
+                newHeight = _image.Height*width/_image.Width;
                 if (newHeight > height)
                 {
-                    width = Image.Width*height/Image.Height;
+                    width = _image.Width*height/_image.Height;
                     newHeight = height;
                 }
             }
 
             Size newSize = new Size(width, newHeight);
-            Output = new Bitmap(newSize.Width, newSize.Height);
-            Graphics graphics = Graphics.FromImage(Output);
+            _output = new Bitmap(newSize.Width, newSize.Height);
+            Graphics graphics = Graphics.FromImage(_output);
 
             if (highQuality)
             {
@@ -89,40 +80,15 @@ namespace ImageBank.Core.ImageProcessing
 
             Rectangle rect = new Rectangle(0, 0, newSize.Width, newSize.Height);
 
-            graphics.DrawImage(Image, rect, 0, 0, Image.Width, Image.Height, GraphicsUnit.Pixel);
+            graphics.DrawImage(_image, rect, 0, 0, _image.Width, _image.Height, GraphicsUnit.Pixel);
         }
 
-        public void Save(string pathToSave, ImageFormat imageFormat)
-        {
-            if (Output == null)
-            {
-                throw new InvalidOperationException("There is no output image.");
-            }
-
-            Output.Save(pathToSave, imageFormat);
-        }
-
-        public MemoryStream Save(ImageFormat imageFormat)
-        {
-            if (Output == null)
-            {
-                throw new InvalidOperationException("There is no output image.");
-            }
-
-            MemoryStream stream = new MemoryStream();
-            Output.Save(stream, imageFormat);
-
-            return stream;
-        }
-
-        public MemoryStream Save(ImageCodecInfo codec, long bitDepth, long quality)
+        private void Save(string uploadDir, string filename, ImageCodecInfo codec, long bitDepth, long quality)
         {
             if (codec == null)
             {
                 throw new ArgumentNullException("codec", "you must specify a codec");
             }
-
-            MemoryStream stream = new MemoryStream();
 
             Encoder encoderInstance = Encoder.Quality;
             EncoderParameters encoderParametersInstance = new EncoderParameters(2);
@@ -132,9 +98,7 @@ namespace ImageBank.Core.ImageProcessing
             encoderParameterInstance = new EncoderParameter(encoderInstance, bitDepth);
             encoderParametersInstance.Param[1] = encoderParameterInstance;
 
-            Output.Save(stream, codec, encoderParametersInstance);
-
-            return stream;
+            _output.Save(Path.Combine(uploadDir, filename), codec, encoderParametersInstance);
         }
 
         public static ImageCodecInfo ProcessCodecs(string mimeType)
@@ -150,20 +114,12 @@ namespace ImageBank.Core.ImageProcessing
             return null;
         }
 
-        public void LoadImage(string fileName)
-        {
-            Image = System.Drawing.Image.FromFile(fileName, true);
-        }
-
-        public void LoadImage(Stream stream)
-        {
-            Image = System.Drawing.Image.FromStream(stream, true);
-        }
-
         public void Dispose()
         {
-            Output.Dispose();
-            Image.Dispose();
+            if(_image != null)
+                _image.Dispose();
+            if(_output != null)
+                _output.Dispose();
         }
     }
 }

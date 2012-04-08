@@ -4,15 +4,15 @@ using System.Linq.Expressions;
 
 namespace ImageBank.Persistence
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IGenericRepository<TEntity> where TEntity : class
     {
-        IQueryable<T> GetAll();
-        IQueryable<T> FindBy(Expression<Func<T, bool>> predicate);
-        IQueryable<T> Include(string includes);
-        T Get(int id);
-        void Add(T entity);
+        IQueryable<TEntity> GetAll();
+        IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate);
+        IQueryable<TEntity> Include(string includes);
+        TEntity Get(int id);
+        void Add(TEntity entity);
         void Delete(int id);
-        void Edit(T entity);
+        void Edit(TEntity entity);
         void Save();
     }
 }

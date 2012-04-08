@@ -44,7 +44,7 @@ namespace ImageBank.Tests.ControllerTests
 
             var result = controller.Upload(0, 0, "foo.jpg") as ContentResult;
 
-            mockImageProcessor.Verify(img => img.ProcessChunkedImage(It.IsAny<ImageChunk>(), FileMode.Create, "C:/Images/Upload/Original"));
+            mockImageProcessor.Verify(img => img.ProcessChunkedImage(It.IsAny<ImageChunk>(), FileMode.Create, "C:\\Images\\Upload\\Original"));
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace ImageBank.Tests.ControllerTests
 
             var result = controller.Upload(1, 5, "foo.jpg") as ContentResult;
 
-            mockImageProcessor.Verify(img => img.ProcessChunkedImage(It.IsAny<ImageChunk>(), FileMode.Append, "C:/Images/Upload/Original"));
+            mockImageProcessor.Verify(img => img.ProcessChunkedImage(It.IsAny<ImageChunk>(), FileMode.Append, "C:\\Images\\Upload\\Original"));
         }
 
         [Test]
@@ -87,27 +87,28 @@ namespace ImageBank.Tests.ControllerTests
         public void UploadPost_WhenChunkIsNotEqualToChunks_ShouldNotGenerateMipMaps()
         {
             var mockImageProcessor = new Mock<IImageProcessor>();
-            mockImageProcessor.Setup(img => img.GenerateMipMaps()).Verifiable();
+            mockImageProcessor.Setup(img => img.GenerateMipMaps(It.IsAny<string>())).Verifiable();
             var controller = GetImageController(mockImageProcessor.Object);
 
             var result = controller.Upload(1, 5, "foo.jpg") as ContentResult;
 
-            mockImageProcessor.Verify(img => img.GenerateMipMaps(), Times.Never());
+            mockImageProcessor.Verify(img => img.GenerateMipMaps(It.IsAny<string>()), Times.Never());
         }
 
         [Test]
         public void UploadPost_WhenChunkIsEqualToChunks_ShouldGenerateMipMaps()
         {
             var mockImageProcessor = new Mock<IImageProcessor>();
-            mockImageProcessor.Setup(img => img.GenerateMipMaps()).Verifiable();
+            mockImageProcessor.Setup(img => img.GenerateMipMaps("C:\\Images\\Upload\\Original\\foo.jpg")).Verifiable();
             var controller = GetImageController(mockImageProcessor.Object);
 
             var result = controller.Upload(5, 5, "foo.jpg") as ContentResult;
 
-            mockImageProcessor.Verify(img => img.GenerateMipMaps());
+            mockImageProcessor.Verify(img => img.GenerateMipMaps("C:\\Images\\Upload\\Original\\foo.jpg"));
         }
 
-        private ImageController GetImageController(IImageProcessor imageProcessor = null, 
+        private ImageController GetImageController(
+            IImageProcessor imageProcessor = null, 
             IImageRepository imageRepository = null)
         {
             var request = new Mock<HttpRequestBase>();
@@ -122,7 +123,7 @@ namespace ImageBank.Tests.ControllerTests
             var fakeFileKeys = new List<string> {"file"};
 
             context.Setup(ctx => ctx.Request).Returns(request.Object);
-            context.Setup(ctx => ctx.Server.MapPath("~/Images/Upload/Original")).Returns("C:/Images/Upload/Original");
+            context.Setup(ctx => ctx.Server.MapPath("~/Images/Upload/Original")).Returns("C:\\Images\\Upload\\Original");
 
             request.Setup(req => req.Files).Returns(postedfilesKeyCollection.Object);
 

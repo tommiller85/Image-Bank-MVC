@@ -4,7 +4,7 @@ namespace ImageBank.Core.ImageProcessing
 {
     public interface IImageProcessor
     {
-        void ProcessChunkedImage(ImageChunk imageChunk, FileMode fileMode, string savePath);
-        void GenerateMipMaps();
+        void ProcessChunkedImage(ImageChunk imageChunk, FileMode fileMode, string uploadDir);
+        void GenerateMipMaps(string filePath);
     }
 }

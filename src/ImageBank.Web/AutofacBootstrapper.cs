@@ -20,8 +20,10 @@ namespace ImageBank.Web
             containerBuilder.RegisterControllers(typeof (MvcApplication).Assembly);
 
             containerBuilder.RegisterType<ImageProcessor>()
-                .As<IImageProcessor>()
-                .SingleInstance();
+                .As<IImageProcessor>();
+
+            containerBuilder.RegisterType<ImageResizer>()
+                .As<IImageResizer>();
 
             containerBuilder.RegisterType<ImageBankContext>()
                 .AsSelf()

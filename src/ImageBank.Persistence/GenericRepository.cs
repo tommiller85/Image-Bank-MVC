@@ -4,56 +4,53 @@ using System.Linq;
 
 namespace ImageBank.Persistence
 {
-    public abstract class GenericRepository<C, T> :
-        IGenericRepository<T>, IDisposable
-        where T : class
-        where C : DbContext
+    public abstract class GenericRepository<TContext, TEntity> : IGenericRepository<TEntity>, IDisposable where TEntity : class where TContext : DbContext
     {
-        public C Context { get; private set; }
+        public TContext Context { get; private set; }
 
-        protected GenericRepository(C ctx)
+        protected GenericRepository(TContext ctx)
         {
             Context = ctx;
         }
 
-        public virtual IQueryable<T> GetAll()
+        public virtual IQueryable<TEntity> GetAll()
         {
-            IQueryable<T> query = Context.Set<T>();
+            IQueryable<TEntity> query = Context.Set<TEntity>();
             return query;
         }
 
-        public virtual T Get(int id)
+        public virtual TEntity Get(int id)
         {
-            var query = Context.Set<T>().Find(id);
+            var query = Context.Set<TEntity>().Find(id);
             return query;
         }
 
-        public IQueryable<T> FindBy(System.Linq.Expressions.Expression<Func<T, bool>> predicate)
+        public IQueryable<TEntity> FindBy(System.Linq.Expressions.Expression<Func<TEntity, bool>> predicate)
         {
-            IQueryable<T> query = Context.Set<T>().Where(predicate);
+            IQueryable<TEntity> query = Context.Set<TEntity>().Where(predicate);
             return query;
         }
 
-        public IQueryable<T> Include(string include)
+        public IQueryable<TEntity> Include(string include)
         {
-            IQueryable<T> query = Context.Set<T>().Include(include);
+            IQueryable<TEntity> query = Context.Set<TEntity>().Include(include);
             return query;
         }
 
-        public virtual void Add(T entity)
+        public virtual void Add(TEntity entity)
         {
-            Context.Set<T>().Add(entity);
+            Context.Set<TEntity>().Add(entity);
             Context.SaveChanges();
         }
 
         public virtual void Delete(int id)
         {
             var entity = Get(id);
-            Context.Set<T>().Remove(entity);
+            Context.Set<TEntity>().Remove(entity);
             Context.SaveChanges();
         }
 
-        public virtual void Edit(T entity)
+        public virtual void Edit(TEntity entity)
         {
             Context.Entry(entity).State = System.Data.EntityState.Modified;
             Context.SaveChanges();

@@ -33,23 +33,24 @@ namespace ImageBank.Web.Controllers
         public ActionResult Upload(int? chunk, int? chunks, string name)
         {
             chunk = chunk ?? 0;
+            chunks = chunks ?? 0;
+
             var file = Request.Files[0];
-            var savePath = Server.MapPath(_settingRepository.OriginalImageRoot);
+            var uploadDir = Server.MapPath(_settingRepository.OriginalImageRoot);
 
             // If this is the first or only chunk then save the image metadata.
             if (chunk == 0)
             {
-                SaveImageMetadata(name, name, savePath);
+                SaveImageMetadata(name, name, uploadDir);
             }
 
             // Process and save the image in chunks.
-            ProcessChunkedImage(chunk, chunks, name, file.InputStream, savePath);
+            ProcessChunkedImage(chunk, chunks, name, file.InputStream, uploadDir);
 
-            // todo: Implement this.
-            // If we're on the final chunk we can read the file and create our minimaps.
+            // If we've appended the last chunk we should generate our mipmaps.
             if (chunk == chunks)
             {
-                _imageProcessor.GenerateMipMaps();
+                _imageProcessor.GenerateMipMaps(Path.Combine(uploadDir, name));
             }
 
             return Content("chunk uploaded", "text/plain");
