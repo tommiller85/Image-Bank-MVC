@@ -4,20 +4,11 @@
     ViewBag.Title = "Home Page";
 }
 
-@section featured {
-<section class="featured">
-    <div class="content-wrapper">
-        <hgroup class="title">
-            <h1>@ViewBag.Title.</h1>
-            <h2>@ViewBag.Message</h2>
-        </hgroup>
-    </div>
-</section>
-}
+<h3>Welcome to Image Bank MVC</h3>
 
-<h3>Latest images:</h3>
-
-@foreach(var image in Model)
-{
-    <img src="../../Images/Upload/640x427/@image.SystemFilename" alt="@image.Filename"/>
-}
+<div class="mediumImages">
+    @foreach(var image in Model)
+    {
+        <img src="../../Images/Upload/640x427/@image.SystemFilename" alt="@image.Filename"/>
+    }    
+</div>
