@@ -1,7 +1,8 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
-using ImageBank.Core.ImageProcessing;
 using ImageBank.Persistence;
+using ImageBank.Services.ImageProcessing;
+using ImageBank.Services.Virtual;
 
 namespace ImageBank.Web
 {
@@ -24,6 +25,14 @@ namespace ImageBank.Web
 
             containerBuilder.RegisterType<ImageResizer>()
                 .As<IImageResizer>();
+
+            containerBuilder.RegisterType<ImageChunkSaver>()
+                .As<IImageChunkSaver>()
+                .SingleInstance();
+
+            containerBuilder.RegisterType<VirtualPathFinder>()
+                .As<IVirtualPathFinder>()
+                .SingleInstance();
 
             containerBuilder.RegisterType<ImageBankContext>()
                 .AsSelf()

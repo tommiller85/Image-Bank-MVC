@@ -15,9 +15,6 @@ namespace ImageBank.Core
         public virtual string SystemFilename { get; set; }
 
         [Required]
-        public virtual string UploadDir { get; set; }
-
-        [Required]
         public virtual DateTime UploadDate { get; set; }
     }
 }

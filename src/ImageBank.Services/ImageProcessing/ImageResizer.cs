@@ -4,12 +4,12 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace ImageBank.Core.ImageProcessing
+namespace ImageBank.Services.ImageProcessing
 {
     public class ImageResizer : IImageResizer, IDisposable
     {
-        private System.Drawing.Image _image;
-        private System.Drawing.Image _output;
+        private Image _image;
+        private Image _output;
 
         public void GenerateMipMap(string imagePathToResize, MipMap map, string uploadDir, string filename)
         {
@@ -34,12 +34,12 @@ namespace ImageBank.Core.ImageProcessing
 
         private void LoadImage(string filePath)
         {
-            _image = System.Drawing.Image.FromFile(filePath, true);
+            _image = Image.FromFile(filePath, true);
         }
 
         private void LoadImage(Stream stream)
         {
-            _image = System.Drawing.Image.FromStream(stream, true);
+            _image = Image.FromStream(stream, true);
         }
 
         private void Resize(int width, int height, bool preserveAspect, bool highQuality)

@@ -1,6 +1,6 @@
 ﻿using System.Drawing.Imaging;
 
-namespace ImageBank.Core.ImageProcessing
+namespace ImageBank.Services.ImageProcessing
 {
     public class MipMap
     {

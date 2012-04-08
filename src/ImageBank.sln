@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageBank.Persistence", "Im
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageBank.Core", "ImageBank.Core\ImageBank.Core.csproj", "{67D639B7-0141-4BEB-8062-DA0DBEA85A82}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageBank.Services", "ImageBank.Services\ImageBank.Services.csproj", "{14ADA424-25A3-44C7-9733-E5B0338DE084}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{67D639B7-0141-4BEB-8062-DA0DBEA85A82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67D639B7-0141-4BEB-8062-DA0DBEA85A82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67D639B7-0141-4BEB-8062-DA0DBEA85A82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14ADA424-25A3-44C7-9733-E5B0338DE084}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14ADA424-25A3-44C7-9733-E5B0338DE084}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14ADA424-25A3-44C7-9733-E5B0338DE084}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14ADA424-25A3-44C7-9733-E5B0338DE084}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -262,7 +262,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\Upload\" />
+    <Folder Include="Images\Upload\640x427\" />
+    <Folder Include="Images\Upload\Original\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -279,6 +280,10 @@
     <ProjectReference Include="..\ImageBank.Persistence\ImageBank.Persistence.csproj">
       <Project>{11EE2CE0-1650-4E73-83FC-0BF50889D54F}</Project>
       <Name>ImageBank.Persistence</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImageBank.Services\ImageBank.Services.csproj">
+      <Project>{14ADA424-25A3-44C7-9733-E5B0338DE084}</Project>
+      <Name>ImageBank.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

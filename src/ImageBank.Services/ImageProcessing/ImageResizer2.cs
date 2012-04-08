@@ -5,12 +5,12 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace ImageBank.Core.ImageProcessing
+namespace ImageBank.Services.ImageProcessing
 {
     public class ImageResizer2 : IDisposable
     {
-        private System.Drawing.Image Image;
-        private System.Drawing.Image Output;
+        private Image Image;
+        private Image Output;
 
         public ImageResizer2(string fileName)
         {
@@ -132,7 +132,6 @@ namespace ImageBank.Core.ImageProcessing
             encoderParameterInstance = new EncoderParameter(encoderInstance, bitDepth);
             encoderParametersInstance.Param[1] = encoderParameterInstance;
 
-            //todo: update this
             //Output.Save( stream, codec, encoderParametersInstance);
             Output.Save(@"C:\Git\Image-Bank-MVC\src\ImageBank.Web\Images\Upload\640x427\test.jpg", codec, encoderParametersInstance);
             //C:\Git\Image-Bank-MVC\src\ImageBank.Web\Images\Upload\640x427

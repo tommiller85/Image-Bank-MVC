@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ImageBank.Core.ImageProcessing
+﻿namespace ImageBank.Services.ImageProcessing
 {
     public interface IImageResizer
     {
