@@ -2,7 +2,7 @@
 
 namespace ImageBank.Services.Virtual
 {
-    public class VirtualPathFinder : IVirtualPathFinder
+    public class VirtualPathResolver : IVirtualPathResolver
     {
         public string ResolvePath(string virtualPath)
         {

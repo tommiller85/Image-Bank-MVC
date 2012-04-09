@@ -54,8 +54,8 @@ namespace ImageBank.Web
                 .As<IImageChunkSaver>()
                 .SingleInstance();
 
-            containerBuilder.RegisterType<VirtualPathFinder>()
-                .As<IVirtualPathFinder>()
+            containerBuilder.RegisterType<VirtualPathResolver>()
+                .As<IVirtualPathResolver>()
                 .SingleInstance();
 
             containerBuilder.RegisterType<AccountProvider>()

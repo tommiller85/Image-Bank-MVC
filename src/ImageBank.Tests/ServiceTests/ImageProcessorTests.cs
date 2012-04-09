@@ -140,7 +140,7 @@ namespace ImageBank.Tests.ServiceTests
             IImageRepository imageRepository = null,
             ISettingRepository settingRepository = null,
             IImageChunkSaver imageChunkSaver = null,
-            IVirtualPathFinder virtualPathFinder = null)
+            IVirtualPathResolver virtualPathResolver = null)
         {
             var mockMipMapGenerator = new Mock<IMipMapGenerator>();
             var mockImageRepository = new Mock<IImageRepository>();
@@ -151,17 +151,17 @@ namespace ImageBank.Tests.ServiceTests
 
             var mockImageChunkSaver = new Mock<IImageChunkSaver>();
 
-            var mockVirtualPathFinder = new Mock<IVirtualPathFinder>();
-            mockVirtualPathFinder.Setup(x => x.ResolvePath("~/Images/Upload/Original")).Returns(
+            var mockVirtualPathResolver = new Mock<IVirtualPathResolver>();
+            mockVirtualPathResolver.Setup(x => x.ResolvePath("~/Images/Upload/Original")).Returns(
                 "C:\\WebRoot\\Images\\Upload\\Original");
-            mockVirtualPathFinder.Setup(x => x.ResolvePath("~/Images/Upload/640x427")).Returns(
+            mockVirtualPathResolver.Setup(x => x.ResolvePath("~/Images/Upload/640x427")).Returns(
                 "C:\\WebRoot\\Images\\Upload\\640x427");
 
             var imageProcessor = new ImageProcessor(mipMapGenerator ?? mockMipMapGenerator.Object,
                                                     imageRepository ?? mockImageRepository.Object,
                                                     settingRepository ?? mockSettingRepository.Object,
                                                     imageChunkSaver ?? mockImageChunkSaver.Object,
-                                                    virtualPathFinder ?? mockVirtualPathFinder.Object);
+                                                    virtualPathResolver ?? mockVirtualPathResolver.Object);
 
             return imageProcessor;
         }

@@ -13,20 +13,20 @@ namespace ImageBank.Services.ImageProcessing
         private readonly IImageRepository _imageRepository;
         private readonly ISettingRepository _settingRepository;
         private readonly IImageChunkSaver _imageChunkSaver;
-        private readonly IVirtualPathFinder _virtualPathFinder;
+        private readonly IVirtualPathResolver _virtualPathResolver;
 
         public ImageProcessor(
             IMipMapGenerator mipMapGenerator,
             IImageRepository imageRepository,
             ISettingRepository settingRepository,
             IImageChunkSaver imageChunkSaver,
-            IVirtualPathFinder virtualPathFinder)
+            IVirtualPathResolver virtualPathResolver)
         {
             _mipMapGenerator = mipMapGenerator;
             _imageRepository = imageRepository;
             _settingRepository = settingRepository;
             _imageChunkSaver = imageChunkSaver;
-            _virtualPathFinder = virtualPathFinder;
+            _virtualPathResolver = virtualPathResolver;
         }
 
         public void ProcessImageChunk(ImageChunk imageChunk)
@@ -58,7 +58,7 @@ namespace ImageBank.Services.ImageProcessing
         private void SaveImageChunk(ImageChunk imageChunk)
         {
             _imageChunkSaver.SaveImageChunk(imageChunk, imageChunk.Chunk == 0 ? FileMode.Create : FileMode.Append,
-                                            _virtualPathFinder.ResolvePath(_settingRepository.OriginalImageRoot));
+                                            _virtualPathResolver.ResolvePath(_settingRepository.OriginalImageRoot));
         }
 
         //TODO: This needs refactoring and test coverage.
@@ -69,10 +69,10 @@ namespace ImageBank.Services.ImageProcessing
                 ImageCodecInfo info = MipMapGenerator.ProcessCodecs("image/jpeg"); // todo: fix this
 
                 _mipMapGenerator.GenerateMipMap(
-                    Path.Combine(_virtualPathFinder.ResolvePath(_settingRepository.OriginalImageRoot),
+                    Path.Combine(_virtualPathResolver.ResolvePath(_settingRepository.OriginalImageRoot),
                                  imageChunk.SystemFilename),
                     new MipMap {Codec = info, Width = 640, Height = 427},
-                    _virtualPathFinder.ResolvePath(_settingRepository.MediumImageRoot),
+                    _virtualPathResolver.ResolvePath(_settingRepository.MediumImageRoot),
                     imageChunk.SystemFilename);
             }
         }

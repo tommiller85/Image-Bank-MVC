@@ -1,7 +1,7 @@
 ﻿
 namespace ImageBank.Services.Virtual
 {
-    public interface IVirtualPathFinder
+    public interface IVirtualPathResolver
     {
         string ResolvePath(string virtualPath);
     }
