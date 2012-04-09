@@ -13,8 +13,7 @@
     @if (Model.Any()) {
         @Html.Partial("Pager", new PagerModel { PageIndex = (int)ViewData["PageIndex"], HasPrevious = (bool)ViewData["HasPrevious"], HasNext = (bool)ViewData["HasNext"], Href = @Url.Action("EditImages", "Image") })
         using (Html.BeginForm()) {
-            foreach (var image in Model.Select((x, i) => new { Current = x, Index = i, x }))
-            {
+            foreach (var image in Model.Select((x, i) => new { Current = x, Index = i, x })) {
                 <div class="editable-image">
                     @Html.MediumSizeImage(image.x.Filename, image.x.SystemFilename)
                     <div class="editor-field">
@@ -38,8 +37,7 @@
         }
         @Html.Partial("Pager", new PagerModel { PageIndex = (int)ViewData["PageIndex"], HasPrevious = (bool)ViewData["HasPrevious"], HasNext = (bool)ViewData["HasNext"], Href = @Url.Action("EditImages", "Image") })
     }
-    else
-    {
+    else {
         <p>No images to edit.</p>
     }
 </div>

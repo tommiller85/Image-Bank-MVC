@@ -34,5 +34,9 @@ namespace ImageBank.Core
         public virtual User UploadedByUser { get; set; }
 
         public virtual string UploadedByUsername { get; set; }
+
+        public virtual Category Category { get; set; }
+
+        public virtual int? CategoryId { get; set; }
     }
 }

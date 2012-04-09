@@ -8,6 +8,7 @@ namespace ImageBank.Persistence
         public DbSet<Image> Images { get; set; }
         public DbSet<Setting> Settings { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -16,6 +17,10 @@ namespace ImageBank.Persistence
             modelBuilder.Entity<User>().HasMany(x => x.Images)
                 .WithRequired(x => x.UploadedByUser)
                 .HasForeignKey(x => x.UploadedByUsername);
+
+            modelBuilder.Entity<Category>().HasMany(x => x.Images)
+                .WithOptional(x => x.Category)
+                .HasForeignKey(x => x.CategoryId);
         }
     }
 }

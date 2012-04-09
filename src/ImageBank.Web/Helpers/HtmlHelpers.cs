@@ -1,6 +1,5 @@
 ﻿using System.Web;
 using System.Web.Mvc;
-using ImageBank.Core;
 
 namespace ImageBank.Web.Helpers
 {

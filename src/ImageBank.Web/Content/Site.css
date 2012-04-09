@@ -208,14 +208,15 @@ footer p a {
 }
 
 .editable-image {
-    background-color: #eee;
+    background-color: #f8f7f7;
     padding: 20px;
     margin-bottom: 10px;
-    border: dotted 1px #660000;
+    border: solid 1px #eee;
 }
 
 .slideshow {
     width: 640px;
+    height: 426px;
     margin: 0px auto 0px auto;
 }
 
