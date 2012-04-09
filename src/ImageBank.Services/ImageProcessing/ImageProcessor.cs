@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing.Imaging;
 using System.IO;
-using ImageBank.Core;
 using ImageBank.Persistence;
 using ImageBank.Services.Virtual;
 
@@ -29,27 +28,30 @@ namespace ImageBank.Services.ImageProcessing
             _virtualPathResolver = virtualPathResolver;
         }
 
-        public void ProcessImageChunk(ImageChunk imageChunk)
+        public void ProcessImageChunk(ImageChunk imageChunk, string uploadedByUsername)
         {
             if (imageChunk.Chunk == null)
                 imageChunk.Chunk = 0;
             if (imageChunk.Chunks == null)
                 imageChunk.Chunks = 0;
 
-            SaveImageMetadata(imageChunk);
+            SaveImageMetadata(imageChunk, uploadedByUsername);
             SaveImageChunk(imageChunk);
             GenerateMipMaps(imageChunk);
         }
 
-        private void SaveImageMetadata(ImageChunk imageChunk)
+        private void SaveImageMetadata(ImageChunk imageChunk, string uploadedByUsername)
         {
             if (imageChunk.Chunk == 0)
             {
-                var image = new Image
+                var image = new Core.Image
                                 {
                                     Filename = imageChunk.SystemFilename,
                                     SystemFilename = imageChunk.SystemFilename,
-                                    UploadDate = DateTime.UtcNow
+                                    UploadDate = DateTime.UtcNow,
+                                    IsPublic = false,
+                                    ShowOnHomePage = false,
+                                    UploadedByUsername = uploadedByUsername
                                 };
                 _imageRepository.Add(image);
             }

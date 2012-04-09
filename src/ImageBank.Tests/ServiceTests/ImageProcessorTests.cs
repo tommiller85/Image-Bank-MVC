@@ -18,7 +18,7 @@ namespace ImageBank.Tests.ServiceTests
             mockImageRepository.Setup(x => x.Add(It.IsAny<Image>())).Verifiable();
             var imageProcessor = GetImageProcessor(imageRepository: mockImageRepository.Object);
 
-            imageProcessor.ProcessImageChunk(new ImageChunk {Chunk = null, Chunks = null, SystemFilename = "foo.jpg"});
+            imageProcessor.ProcessImageChunk(new ImageChunk {Chunk = null, Chunks = null, SystemFilename = "foo.jpg"}, "testuser");
 
             mockImageRepository.Verify(x => x.Add(It.IsAny<Image>()));
         }
@@ -30,7 +30,7 @@ namespace ImageBank.Tests.ServiceTests
             mockImageRepository.Setup(x => x.Add(It.IsAny<Image>())).Verifiable();
             var imageProcessor = GetImageProcessor(imageRepository: mockImageRepository.Object);
 
-            imageProcessor.ProcessImageChunk(new ImageChunk {Chunk = 0, Chunks = 0, SystemFilename = "foo.jpg"});
+            imageProcessor.ProcessImageChunk(new ImageChunk { Chunk = 0, Chunks = 0, SystemFilename = "foo.jpg" }, "testuser");
 
             mockImageRepository.Verify(x => x.Add(It.IsAny<Image>()));
         }
@@ -42,7 +42,7 @@ namespace ImageBank.Tests.ServiceTests
             mockImageRepository.Setup(x => x.Add(It.IsAny<Image>())).Verifiable();
             var imageProcessor = GetImageProcessor(imageRepository: mockImageRepository.Object);
 
-            imageProcessor.ProcessImageChunk(new ImageChunk {Chunk = 1, Chunks = 3, SystemFilename = "foo.jpg"});
+            imageProcessor.ProcessImageChunk(new ImageChunk { Chunk = 1, Chunks = 3, SystemFilename = "foo.jpg" }, "testuser");
 
             mockImageRepository.Verify(x => x.Add(It.IsAny<Image>()), Times.Never());
         }
@@ -55,7 +55,7 @@ namespace ImageBank.Tests.ServiceTests
                 .Verifiable();
             var imageProcessor = GetImageProcessor(imageChunkSaver: mockImageChunkSaver.Object);
 
-            imageProcessor.ProcessImageChunk(new ImageChunk {Chunk = 0, SystemFilename = "foo.jpg"});
+            imageProcessor.ProcessImageChunk(new ImageChunk { Chunk = 0, SystemFilename = "foo.jpg" }, "testuser");
 
             mockImageChunkSaver.Verify(
                 img => img.SaveImageChunk(It.IsAny<ImageChunk>(), FileMode.Create, It.IsAny<string>()));
@@ -69,7 +69,7 @@ namespace ImageBank.Tests.ServiceTests
                 x => x.SaveImageChunk(new ImageChunk(), FileMode.Append, "C:\\Images\\Upload\\Original")).Verifiable();
             var imageProcessor = GetImageProcessor(imageChunkSaver: mockImageChunkSaver.Object);
 
-            imageProcessor.ProcessImageChunk(new ImageChunk {Chunk = 1, Chunks = 2, SystemFilename = "foo.jpg"});
+            imageProcessor.ProcessImageChunk(new ImageChunk { Chunk = 1, Chunks = 2, SystemFilename = "foo.jpg" }, "testuser");
 
             mockImageChunkSaver.Verify(
                 img => img.SaveImageChunk(It.IsAny<ImageChunk>(), FileMode.Append, It.IsAny<string>()));
@@ -84,7 +84,7 @@ namespace ImageBank.Tests.ServiceTests
                 Verifiable();
             var imageProcessor = GetImageProcessor(imageChunkSaver: mockImageChunkSaver.Object);
 
-            imageProcessor.ProcessImageChunk(new ImageChunk {Chunk = 1, Chunks = 2, SystemFilename = "foo.jpg"});
+            imageProcessor.ProcessImageChunk(new ImageChunk {Chunk = 1, Chunks = 2, SystemFilename = "foo.jpg"}, "testuser");
 
             mockImageChunkSaver.Verify(
                 img =>
@@ -99,7 +99,7 @@ namespace ImageBank.Tests.ServiceTests
                 Verifiable();
             var imageProcessor = GetImageProcessor(mockMipMapGenerator.Object);
 
-            imageProcessor.ProcessImageChunk(new ImageChunk {Chunk = 0, Chunks = 3, SystemFilename = "foo.jpg"});
+            imageProcessor.ProcessImageChunk(new ImageChunk { Chunk = 0, Chunks = 3, SystemFilename = "foo.jpg" }, "testuser");
 
             mockMipMapGenerator.Verify(
                 x => x.GenerateMipMap(It.IsAny<string>(), It.IsAny<MipMap>(), It.IsAny<string>(), It.IsAny<string>()),
@@ -114,7 +114,7 @@ namespace ImageBank.Tests.ServiceTests
                 Verifiable();
             var imageProcessor = GetImageProcessor(mockMipMapGenerator.Object);
 
-            imageProcessor.ProcessImageChunk(new ImageChunk {Chunk = 1, Chunks = 2, SystemFilename = "foo.jpg"});
+            imageProcessor.ProcessImageChunk(new ImageChunk {Chunk = 1, Chunks = 2, SystemFilename = "foo.jpg"}, "testuser");
 
             mockMipMapGenerator.Verify(
                 x => x.GenerateMipMap(It.IsAny<string>(), It.IsAny<MipMap>(), It.IsAny<string>(), It.IsAny<string>()));
@@ -128,7 +128,7 @@ namespace ImageBank.Tests.ServiceTests
                 Verifiable();
             var imageProcessor = GetImageProcessor(mockMipMapGenerator.Object);
 
-            imageProcessor.ProcessImageChunk(new ImageChunk {Chunk = 0, Chunks = 0, SystemFilename = "foo.jpg"});
+            imageProcessor.ProcessImageChunk(new ImageChunk {Chunk = 0, Chunks = 0, SystemFilename = "foo.jpg"}, "testuser");
 
             mockMipMapGenerator.Verify(
                 x => x.GenerateMipMap(It.IsAny<string>(), It.IsAny<MipMap>(), It.IsAny<string>(), It.IsAny<string>()),

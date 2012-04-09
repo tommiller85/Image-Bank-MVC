@@ -8,8 +8,8 @@ namespace ImageBank.Services.ImageProcessing
 {
     public class MipMapGenerator : IMipMapGenerator, IDisposable
     {
-        private Image _image;
-        private Image _output;
+        private System.Drawing.Image _image;
+        private System.Drawing.Image _output;
 
         public void GenerateMipMap(string imagePathToResize, MipMap map, string uploadDir, string filename)
         {
@@ -34,12 +34,12 @@ namespace ImageBank.Services.ImageProcessing
 
         private void LoadImage(string filePath)
         {
-            _image = Image.FromFile(filePath, true);
+            _image = System.Drawing.Image.FromFile(filePath, true);
         }
 
         private void LoadImage(Stream stream)
         {
-            _image = Image.FromStream(stream, true);
+            _image = System.Drawing.Image.FromStream(stream, true);
         }
 
         private void Resize(int width, int height, bool preserveAspect, bool highQuality)

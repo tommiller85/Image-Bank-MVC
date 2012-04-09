@@ -6,11 +6,11 @@ namespace ImageBank.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IAccountProvider _accountProvider;
+        private readonly IAccountService _accountService;
 
-        public AccountController(IAccountProvider accountProvider)
+        public AccountController(IAccountService accountService)
         {
-            _accountProvider = accountProvider;
+            _accountService = accountService;
         }
 
         [HttpGet]
@@ -22,14 +22,14 @@ namespace ImageBank.Web.Controllers
         [HttpPost]
         public ActionResult Login(LoginModel model, string returnUrl = null)
         {
-            var authenticated = _accountProvider.Authenticate(model.Username, model.Password);
+            var authenticated = _accountService.Authenticate(model.Username, model.Password);
             if (!authenticated)
             {
                 ModelState.AddModelError("", "Bad username or password combination.");
                 return View(model);
             }
 
-            _accountProvider.SetAuthCookie(model.Username, false);
+            _accountService.SetAuthCookie(model.Username, false);
 
             if (!string.IsNullOrEmpty(returnUrl))
                 return Redirect(returnUrl);

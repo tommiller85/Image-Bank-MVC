@@ -18,14 +18,22 @@
         <header>
             <div id="header">
                 <div id="header-wrapper">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a id="login" href="@Url.Action("Login", "Account")">Login</a>   
+                    }
                     <div id="logo">
-                        <img id="logo" src="../../Images/logo.png" alt="Image Bank MVC"/>        
+                        <img id="logo" src="../../Images/logo.png" alt="Image Bank MVC"/>       
                     </div>
                     <div id="nav">
                         <nav>
                             <ul>
                                 <li><a href="@Url.Action("Index", "Home")">Home</a></li>
-                                <li><a href="@Url.Action("Upload", "Image")">Upload</a></li>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li><a href="@Url.Action("Upload", "Image")">Upload</a></li>
+                                    <li><a href="@Url.Action("EditImages", "Image")">Edit My Images</a></li>
+                                }                              
                             </ul>    
                         
                         </nav>

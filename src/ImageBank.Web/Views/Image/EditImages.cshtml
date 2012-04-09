@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ImageBank.Web.Models.EditImageModel>
+
+@{
+    ViewBag.Title = "My Images";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Edit My Images</h3>
+
+<div class="medium-images">
+    @if (!Model.Any()) {
+        <p>No images to edit.</p>
+    }
+    else {
+        using (Html.BeginForm()) {
+            foreach (var image in Model.Select((x, i) => new { Current = x, Index = i, x }))
+            {
+                <div class="editor-field">
+                    @Html.Hidden("[" + image.Index + "].Id", image.x.Id)
+                    @Html.Hidden("[" + image.Index + "].SystemFilename", image.x.SystemFilename)
+                    @Html.TextBox("[" + image.Index + "].Filename", image.x.Filename)
+                </div>
+                <img src="../../Images/Upload/640x427/@image.x.SystemFilename" alt="@image.x.Filename" />
+                <div class="editor-field">
+                    @Html.TextArea("[" + image.Index + "].Description", image.x.Description, new { cols = "1", rows = "3" })
+                </div>
+                <div class="editor-field">
+                    @Html.Label("[" + image.Index + "].IsPublic", "Is Public") @Html.CheckBox("[" + image.Index + "].IsPublic", image.x.IsPublic)<br/>
+                    @Html.Label("[" + image.Index + "].ShowOnHomepage", "Show On Homepage") @Html.CheckBox("[" + image.Index + "].ShowOnHomepage", image.x.ShowOnHomepage)
+                </div>
+            }
+            <input type="submit" value="Save" />
+        }        
+    }
+</div>

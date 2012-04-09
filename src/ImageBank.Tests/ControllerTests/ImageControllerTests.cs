@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
+using ImageBank.Core;
 using ImageBank.Persistence;
+using ImageBank.Services.Image;
 using ImageBank.Services.ImageProcessing;
 using ImageBank.Web.Controllers;
+using ImageBank.Web.Models;
 using Moq;
 using NUnit.Framework;
 
@@ -37,15 +39,58 @@ namespace ImageBank.Tests.ControllerTests
         public void UploadPost_ShouldInvoke_ProcessImageChunk()
         {
             var mockImageProcessor = new Mock<IImageProcessor>();
-            mockImageProcessor.Setup(x => x.ProcessImageChunk(new ImageChunk())).Verifiable();
+            mockImageProcessor.Setup(x => x.ProcessImageChunk(new ImageChunk(), "testuser")).Verifiable();
             var controller = GetImageController(mockImageProcessor.Object);
 
             var result = controller.Upload(0, 0, "foo.jpg");
 
-            mockImageProcessor.Verify(x => x.ProcessImageChunk(It.IsAny<ImageChunk>()));
+            mockImageProcessor.Verify(x => x.ProcessImageChunk(It.IsAny<ImageChunk>(), It.IsAny<string>()));
         }
 
-        private ImageController GetImageController(IImageProcessor imageProcessor = null)
+        [Test]
+        public void EditImagesGet_ShouldReturn_ViewResult()
+        {
+            var controller = GetImageController();
+
+            var result = controller.EditImages();
+
+            Assert.IsInstanceOf(typeof(ViewResult), result);
+        }
+
+        [Test]
+        public void EditImagesGet_ShouldReturn_UpdateImagesAsModel()
+        {
+            var controller = GetImageController();
+
+            var result = controller.EditImages() as ViewResult;
+
+            Assert.IsInstanceOf(typeof(IEnumerable<EditImageModel>), result.Model);
+        }
+
+        [Test]
+        public void EditImagesPost_ShouldReturn_RedirectToRouteResult()
+        {
+            var controller = GetImageController();
+
+            var result = controller.EditImages(new List<EditImageModel>()) as RedirectToRouteResult;
+
+            Assert.AreEqual("EditImages", result.RouteValues["action"]);
+            Assert.AreEqual("Image", result.RouteValues["controller"]);
+        }
+
+        [Test]
+        public void EditImagesPost_ShouldInvoke_EditImages()
+        {
+            var mockImageService = new Mock<IImageService>();
+            mockImageService.Setup(x => x.EditImages(new List<Image>()));
+            var controller = GetImageController(imageService: mockImageService.Object);
+
+            var result = controller.EditImages(new List<EditImageModel>());
+
+            mockImageService.Verify(x => x.EditImages(It.IsAny<IEnumerable<Image>>()), Times.Once());
+        }
+
+        private ImageController GetImageController(IImageProcessor imageProcessor = null, IImageService imageService = null)
         {
             var request = new Mock<HttpRequestBase>();
             var context = new Mock<HttpContextBase>();
@@ -54,11 +99,13 @@ namespace ImageBank.Tests.ControllerTests
 
             var mockImageProcessor = new Mock<IImageProcessor>();
             var mockSettingRepository = new Mock<ISettingRepository>();
+            var mockImageService = new Mock<IImageService>();
 
             var fakeFileKeys = new List<string> {"file"};
 
             context.Setup(ctx => ctx.Request).Returns(request.Object);
             context.Setup(ctx => ctx.Server.MapPath("~/Images/Upload/Original")).Returns("C:\\Images\\Upload\\Original");
+            context.SetupGet(ctx => ctx.User.Identity.Name).Returns("testuser");
 
             request.Setup(req => req.Files).Returns(postedfilesKeyCollection.Object);
 
@@ -70,8 +117,14 @@ namespace ImageBank.Tests.ControllerTests
 
             mockSettingRepository.SetupGet(s => s.OriginalImageRoot).Returns("~/Images/Upload/Original");
 
-            var controller = new ImageController(imageProcessor ?? mockImageProcessor.Object);
-            controller.ControllerContext = new ControllerContext(context.Object, new RouteData(), controller);
+            var controller = new ImageController(
+                imageProcessor ?? mockImageProcessor.Object, 
+                imageService ?? mockImageService.Object);
+
+            var mockControllerContext = new Mock<ControllerContext>();
+            mockControllerContext.SetupGet(x => x.HttpContext).Returns(context.Object);
+
+            controller.ControllerContext = mockControllerContext.Object;
 
             return controller;
         }

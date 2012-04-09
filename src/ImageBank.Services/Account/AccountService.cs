@@ -5,11 +5,11 @@ using ImageBank.Persistence;
 
 namespace ImageBank.Services.Account
 {
-    public class AccountProvider : IAccountProvider
+    public class AccountService : IAccountService
     {
         private readonly IUserRepository _userRepository;
 
-        public AccountProvider(IUserRepository userRepository)
+        public AccountService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
@@ -30,6 +30,11 @@ namespace ImageBank.Services.Account
         public void SetAuthCookie(string username, bool createPersistentCookie)
         {
             FormsAuthentication.SetAuthCookie(username, createPersistentCookie);
+        }
+
+        public User GetUser(string username)
+        {
+            return _userRepository.Get(username);
         }
     }
 }

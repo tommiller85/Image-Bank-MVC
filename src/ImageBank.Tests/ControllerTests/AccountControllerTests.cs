@@ -74,15 +74,15 @@ namespace ImageBank.Tests.ControllerTests
         [Test]
         public void LoginPost_WhenCredentialsAreCorrect_ShouldSetAuthCookie()
         {
-            var mockAccountProvider = new Mock<IAccountProvider>();
-            mockAccountProvider.Setup(x => x.Authenticate("testuser", "correctpassword")).Returns(true);
-            mockAccountProvider.Setup(x => x.SetAuthCookie("testuser", false)).Verifiable();
+            var mockAccountService = new Mock<IAccountService>();
+            mockAccountService.Setup(x => x.Authenticate("testuser", "correctpassword")).Returns(true);
+            mockAccountService.Setup(x => x.SetAuthCookie("testuser", false)).Verifiable();
 
-            var controller = new AccountController(mockAccountProvider.Object);
+            var controller = new AccountController(mockAccountService.Object);
 
             var result = controller.Login(new LoginModel { Username = "testuser", Password = "correctpassword" });
 
-            mockAccountProvider.Verify(x => x.SetAuthCookie("testuser", false));
+            mockAccountService.Verify(x => x.SetAuthCookie("testuser", false));
         }
 
         [Test]
@@ -107,11 +107,11 @@ namespace ImageBank.Tests.ControllerTests
 
         private AccountController GetAccountController()
         {
-            var mockAccountProvider = new Mock<IAccountProvider>();
-            mockAccountProvider.Setup(x => x.Authenticate("testuser", "correctpassword")).Returns(true);
-            mockAccountProvider.Setup(x => x.Authenticate("testuser", "incorrectpassword")).Returns(false);
+            var mockAccountService = new Mock<IAccountService>();
+            mockAccountService.Setup(x => x.Authenticate("testuser", "correctpassword")).Returns(true);
+            mockAccountService.Setup(x => x.Authenticate("testuser", "incorrectpassword")).Returns(false);
 
-            var controller = new AccountController(mockAccountProvider.Object);
+            var controller = new AccountController(mockAccountService.Object);
 
             return controller;
         }

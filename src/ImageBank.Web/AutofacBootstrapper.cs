@@ -2,6 +2,7 @@
 using Autofac.Integration.Mvc;
 using ImageBank.Persistence;
 using ImageBank.Services.Account;
+using ImageBank.Services.Image;
 using ImageBank.Services.ImageProcessing;
 using ImageBank.Services.Virtual;
 
@@ -50,6 +51,9 @@ namespace ImageBank.Web
             containerBuilder.RegisterType<MipMapGenerator>()
                 .As<IMipMapGenerator>();
 
+            containerBuilder.RegisterType<ImageService>()
+                .As<IImageService>();
+
             containerBuilder.RegisterType<ImageChunkSaver>()
                 .As<IImageChunkSaver>()
                 .SingleInstance();
@@ -58,8 +62,8 @@ namespace ImageBank.Web
                 .As<IVirtualPathResolver>()
                 .SingleInstance();
 
-            containerBuilder.RegisterType<AccountProvider>()
-                .As<IAccountProvider>();
+            containerBuilder.RegisterType<AccountService>()
+                .As<IAccountService>();
 
             #endregion
         }

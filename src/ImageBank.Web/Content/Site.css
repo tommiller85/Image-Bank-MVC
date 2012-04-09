@@ -98,6 +98,15 @@ div#header-wrapper {
     margin: 0px auto 0px auto;
 }
 
+div#header-wrapper a#login {
+    position: absolute;
+    top: 10px;
+    left: 1230px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.75em;
+}
+
 div#logo {
     position: relative;
     top: 20px;
@@ -180,6 +189,10 @@ footer p a {
 
 .medium-images {
     text-align: center;
+}
+
+.medium-images input[type='text'], .medium-images textarea {
+    width: 600px;
 }
 
 .editor-label {
