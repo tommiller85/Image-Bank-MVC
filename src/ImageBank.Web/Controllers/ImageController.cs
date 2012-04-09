@@ -52,19 +52,29 @@ namespace ImageBank.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult EditImages()
+        public ActionResult EditImages(int pageIndex = 0, int pageSize = 5)
         {
-            var myImages =
-                _imageService.GetImagesByUser(User.Identity.Name).Select(
-                    x =>
-                    new EditImageModel
-                        {Id = x.Id, Filename = x.Filename, SystemFilename = x.SystemFilename, Description = x.Description, IsPublic = x.IsPublic, ShowOnHomepage = x.ShowOnHomePage});
+            var pageOfImages = _imageService.GetImagesByUser(User.Identity.Name, pageIndex, pageSize);
+            var model = pageOfImages.Select(x =>
+                        new EditImageModel
+                            {
+                                Id = x.Id,
+                                Filename = x.Filename,
+                                SystemFilename = x.SystemFilename,
+                                Description = x.Description,
+                                IsPublic = x.IsPublic,
+                                ShowOnHomepage = x.ShowOnHomePage
+                            });
 
-            return View(myImages);
+            ViewData["PageIndex"] = pageIndex;
+            ViewData["HasPrevious"] = pageOfImages.HasPreviousPage;
+            ViewData["HasNext"] = pageOfImages.HasNextPage;
+
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult EditImages(IEnumerable<EditImageModel> images)
+        public ActionResult EditImages(IEnumerable<EditImageModel> images, int pageIndex = 0)
         {
             List<Image> imagesToUpdate = new List<Image>();
             foreach(var image in images)
@@ -74,13 +84,13 @@ namespace ImageBank.Web.Controllers
                 imageToUpdate.Filename = image.Filename;
                 imageToUpdate.Description = image.Description;
                 imageToUpdate.IsPublic = image.IsPublic;
+                imageToUpdate.Deleted = image.Delete;
 
                 imagesToUpdate.Add(imageToUpdate);
             }
             _imageService.EditImages(imagesToUpdate);
 
-
-            return RedirectToAction("EditImages", "Image");
+            return RedirectToAction("EditImages", "Image", new { pageIndex });
         }
     }
 }

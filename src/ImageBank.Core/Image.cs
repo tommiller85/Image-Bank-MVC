@@ -28,6 +28,9 @@ namespace ImageBank.Core
         [Required]
         public virtual bool ShowOnHomePage { get; set; }
 
+        [Required]
+        public virtual bool Deleted { get; set; }
+
         public virtual User UploadedByUser { get; set; }
 
         public virtual string UploadedByUsername { get; set; }

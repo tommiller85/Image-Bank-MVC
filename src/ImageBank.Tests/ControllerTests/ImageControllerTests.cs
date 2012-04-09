@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ImageBank.Core;
@@ -58,13 +59,25 @@ namespace ImageBank.Tests.ControllerTests
         }
 
         [Test]
-        public void EditImagesGet_ShouldReturn_UpdateImagesAsModel()
+        public void EditImagesGet_ShouldReturn_EditImageModelsAsModel()
         {
             var controller = GetImageController();
 
             var result = controller.EditImages() as ViewResult;
 
             Assert.IsInstanceOf(typeof(IEnumerable<EditImageModel>), result.Model);
+        }
+
+        [Test]
+        public void EditImagesGet_ShouldReturn_PagingInfoAsViewData()
+        {
+            var controller = GetImageController();
+
+            var result = controller.EditImages() as ViewResult;
+
+            Assert.AreEqual(0, controller.ViewData["PageIndex"]);
+            Assert.AreEqual(false, controller.ViewData["HasPrevious"]);
+            Assert.AreEqual(false, controller.ViewData["HasNext"]);
         }
 
         [Test]
@@ -76,6 +89,7 @@ namespace ImageBank.Tests.ControllerTests
 
             Assert.AreEqual("EditImages", result.RouteValues["action"]);
             Assert.AreEqual("Image", result.RouteValues["controller"]);
+            Assert.AreEqual(0, result.RouteValues["pageIndex"]);
         }
 
         [Test]
@@ -100,6 +114,9 @@ namespace ImageBank.Tests.ControllerTests
             var mockImageProcessor = new Mock<IImageProcessor>();
             var mockSettingRepository = new Mock<ISettingRepository>();
             var mockImageService = new Mock<IImageService>();
+
+            mockImageService.Setup(x => x.GetImagesByUser("testuser", 0, 5)).Returns(
+                new PagedList<Image>(new List<Image>().AsQueryable(), 0, 5));
 
             var fakeFileKeys = new List<string> {"file"};
 

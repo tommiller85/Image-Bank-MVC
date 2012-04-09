@@ -1,0 +1,10 @@
+﻿@model ImageBank.Web.Models.PagerModel
+
+<div class="pager">
+    @if(Model.HasPrevious) {
+        <a href="@(Model.Href + "?pageIndex=" + (Model.PageIndex - 1))">< previous</a><text>&nbsp;</text>
+    }
+    @if(Model.HasNext) {
+        <a href="@(Model.Href + "?pageIndex=" + (Model.PageIndex + 1))">next ></a>
+    }
+</div>

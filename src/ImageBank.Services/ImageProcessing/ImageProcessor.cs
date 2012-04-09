@@ -51,6 +51,7 @@ namespace ImageBank.Services.ImageProcessing
                                     UploadDate = DateTime.UtcNow,
                                     IsPublic = false,
                                     ShowOnHomePage = false,
+                                    Deleted = false,
                                     UploadedByUsername = uploadedByUsername
                                 };
                 _imageRepository.Add(image);

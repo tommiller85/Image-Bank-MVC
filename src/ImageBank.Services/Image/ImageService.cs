@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using ImageBank.Core;
 using ImageBank.Persistence;
 
 namespace ImageBank.Services.Image
@@ -13,11 +14,13 @@ namespace ImageBank.Services.Image
             _imageRepository = imageRepository;
         }
 
-        public IEnumerable<Core.Image> GetImagesByUser(string uploadedByUsername)
+        public PagedList<Core.Image> GetImagesByUser(string uploadedByUsername, int pageIndex, int pageSize)
         {
-            return _imageRepository.GetAll().Where(
-                x => x.UploadedByUsername == uploadedByUsername
-                ).ToList();
+            return
+                new PagedList<Core.Image>(
+                    _imageRepository.GetAll().OrderByDescending(x => x.UploadDate).Where(
+                        x => x.UploadedByUsername == uploadedByUsername && x.Deleted == false), pageIndex,
+                    pageSize);
         }
 
         public void EditImages(IEnumerable<Core.Image> images)

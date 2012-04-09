@@ -19,5 +19,8 @@ namespace ImageBank.Web.Models
 
         [Display(Name = "Show On Homepage")]
         public bool ShowOnHomepage { get; set; }
+
+        [Display(Name = "Delete Image")]
+        public bool Delete { get; set; }
     }
 }
