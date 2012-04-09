@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace ImageBank.Persistence
 {
-    public interface IGenericRepository<TEntity, TKey> where TEntity : class where TKey : struct
+    public interface IGenericRepository<TEntity, TKey> where TEntity : class
     {
         IQueryable<TEntity> GetAll();
         IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate);

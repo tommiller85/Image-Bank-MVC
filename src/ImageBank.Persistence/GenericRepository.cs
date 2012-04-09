@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ImageBank.Persistence
 {
-    public abstract class GenericRepository<TContext, TEntity, TKey> : IGenericRepository<TEntity, TKey>, IDisposable where TContext : DbContext where TEntity : class where TKey : struct
+    public abstract class GenericRepository<TContext, TEntity, TKey> : IGenericRepository<TEntity, TKey>, IDisposable where TContext : DbContext where TEntity : class
     {
         public TContext Context { get; private set; }
 
