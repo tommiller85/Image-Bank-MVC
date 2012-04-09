@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using ImageBank.Core;
 using ImageBank.Persistence;
+using ImageBank.Services;
 using ImageBank.Services.Image;
 using ImageBank.Services.ImageProcessing;
 using ImageBank.Web.Controllers;

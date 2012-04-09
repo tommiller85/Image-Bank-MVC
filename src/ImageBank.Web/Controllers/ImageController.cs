@@ -74,8 +74,13 @@ namespace ImageBank.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditImages(IEnumerable<EditImageModel> images, int pageIndex = 0)
+        public ActionResult EditImages(IEnumerable<EditImageModel> images, int pageIndex = 0, int pageSize = 5)
         {
+            if(!ModelState.IsValid)
+            {
+                return EditImages(pageIndex, pageSize);
+            }
+
             List<Image> imagesToUpdate = new List<Image>();
             foreach(var image in images)
             {
@@ -84,6 +89,7 @@ namespace ImageBank.Web.Controllers
                 imageToUpdate.Filename = image.Filename;
                 imageToUpdate.Description = image.Description;
                 imageToUpdate.IsPublic = image.IsPublic;
+                imageToUpdate.ShowOnHomePage = image.ShowOnHomepage;
                 imageToUpdate.Deleted = image.Delete;
 
                 imagesToUpdate.Add(imageToUpdate);

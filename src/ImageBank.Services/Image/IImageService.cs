@@ -8,5 +8,6 @@ namespace ImageBank.Services.Image
         PagedList<Core.Image> GetImagesByUser(string uploadedByUsername, int pageIndex, int pageSize);
         void EditImages(IEnumerable<Core.Image> images);
         Core.Image GetImageById(int id);
+        IEnumerable<Core.Image> GetHomepageImages();
     }
 }

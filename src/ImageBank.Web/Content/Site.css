@@ -204,7 +204,19 @@ footer p a {
 }
 
 .pager {
-    margin: 20px;
+    margin: 10px;
+}
+
+.editable-image {
+    background-color: #eee;
+    padding: 20px;
+    margin-bottom: 10px;
+    border: dotted 1px #660000;
+}
+
+.slideshow {
+    width: 640px;
+    margin: 0px auto 0px auto;
 }
 
 /* styles for validation helpers */

@@ -11,6 +11,7 @@
         <script type="text/javascript" src="@Url.Content("~/plupload/plupload.js")"></script>
         <script type="text/javascript" src="@Url.Content("~/plupload/plupload.html5.js")"></script>
         <script type="text/javascript" src="@Url.Content("~/plupload/jquery.plupload.queue/jquery.plupload.queue.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.cycle.all.js")"></script>
 
         <meta name="viewport" content="width=device-width" />
     </head>
@@ -32,7 +33,7 @@
                                 @if (User.Identity.IsAuthenticated)
                                 {
                                     <li><a href="@Url.Action("Upload", "Image")">Upload</a></li>
-                                    <li><a href="@Url.Action("EditImages", "Image")">Edit My Images</a></li>
+                                    <li><a href="@Url.Action("EditImages", "Image")">Edit Images</a></li>
                                 }                              
                             </ul>    
                         

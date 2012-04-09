@@ -6,6 +6,7 @@ namespace ImageBank.Web.Models
     {
         public int Id { get; set; }
 
+        [Required]
         [StringLength(500)]
         public string Filename { get; set; }
 

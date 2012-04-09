@@ -6,9 +6,17 @@
 
 <h3>Welcome to Image Bank MVC</h3>
 
-@*<div class="medium-images">
-    @foreach(var image in Model)
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.slideshow').cycle({
+            fx: 'fade'
+        });
+    });
+</script>
+
+<div class="slideshow">
+    @foreach (var image in Model)
     {
-        <img src="../../Images/Upload/640x427/@image.SystemFilename" alt="@image.Filename"/>
-    } 
-</div>*@
+        @Html.MediumSizeImage(image.Filename, image.SystemFilename)
+    }
+</div>

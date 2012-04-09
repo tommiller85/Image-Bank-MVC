@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ImageBank.Core
+namespace ImageBank.Services
 {
     public class PagedList<T> : List<T>
     {

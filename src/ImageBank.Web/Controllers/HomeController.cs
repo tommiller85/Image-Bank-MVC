@@ -1,23 +1,22 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-using ImageBank.Persistence;
+﻿using System.Web.Mvc;
+using ImageBank.Services.Image;
 
 namespace ImageBank.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IImageRepository _imageRepository;
+        private readonly IImageService _imageService;
 
-        public HomeController(IImageRepository imageRepository)
+        public HomeController(IImageService imageService)
         {
-            _imageRepository = imageRepository;
+            _imageService = imageService;
         }
 
         public ActionResult Index()
         {
-            ViewBag.Message = "Welcome to Image Bank.";
-
-            return View();
+            var homepageImages = _imageService.GetHomepageImages();
+            
+            return View(homepageImages);
         }
     }
 }

@@ -22,6 +22,11 @@ namespace ImageBank.Web.Controllers
         [HttpPost]
         public ActionResult Login(LoginModel model, string returnUrl = null)
         {
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             var authenticated = _accountService.Authenticate(model.Username, model.Password);
             if (!authenticated)
             {

@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using ImageBank.Core;
 using ImageBank.Persistence;
 
 namespace ImageBank.Services.Image
@@ -34,6 +33,13 @@ namespace ImageBank.Services.Image
         public Core.Image GetImageById(int id)
         {
             return _imageRepository.Get(id);
+        }
+
+        public IEnumerable<Core.Image> GetHomepageImages()
+        {
+            return
+                _imageRepository.GetAll().Where(x => x.IsPublic && x.ShowOnHomePage && x.Deleted == false).
+                    OrderByDescending(x => x.UploadDate).ToList();
         }
     }
 }
