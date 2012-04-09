@@ -28,7 +28,7 @@ namespace ImageBank.Tests.ControllerTests
 
             var result = controller.Index() as ViewResult;
 
-            Assert.IsInstanceOf(typeof(IEnumerable<Image>), result);
+            Assert.IsInstanceOf(typeof(IEnumerable<Image>), result.Model);
         }
 
         private HomeController GetHomeController()
