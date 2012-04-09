@@ -4,6 +4,7 @@ using ImageBank.Services.ImageProcessing;
 
 namespace ImageBank.Web.Controllers
 {
+    [Authorize]
     public class ImageController : Controller
     {
         private readonly IImageProcessor _imageProcessor;

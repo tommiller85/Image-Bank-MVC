@@ -1,5 +1,5 @@
 ﻿html {
-    background-color: #e2e2e2;
+    background-color: #eee;
     margin: 0;
     padding: 0;
 }
@@ -54,7 +54,7 @@ nav, section {
 h1, h2, h3,
 h4, h5, h6 {
     color: #000;
-    margin-bottom: 0;
+    margin-bottom: 15px;
     padding-bottom: 0;
 }
 
@@ -76,6 +76,12 @@ h4 {
 
 h5, h6 {
     font-size: 1em;
+}
+
+fieldset {
+    padding: 0;
+    margin: 0;
+    border: none;
 }
 
 
@@ -160,6 +166,11 @@ footer p {
     text-align: center;
 }
 
+footer p a {
+    text-decoration: none !important;
+    font-size: 0.75em; 
+}
+
 /* menu
 ----------------------------------------------------------*/
 
@@ -167,9 +178,16 @@ footer p {
 /* page elements
 ----------------------------------------------------------*/
 
-.mediumImages {
-    margin-top: 15px;
+.medium-images {
     text-align: center;
+}
+
+.editor-label {
+    
+}
+
+.editor-field {
+    margin-bottom: 10px;
 }
 
 /* styles for validation helpers */

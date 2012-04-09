@@ -6,7 +6,7 @@ using System.IO;
 
 namespace ImageBank.Services.ImageProcessing
 {
-    public class ImageResizer : IImageResizer, IDisposable
+    public class MipMapGenerator : IMipMapGenerator, IDisposable
     {
         private Image _image;
         private Image _output;

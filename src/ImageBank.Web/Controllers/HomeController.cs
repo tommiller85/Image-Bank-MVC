@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using ImageBank.Core;
 using ImageBank.Persistence;
 
 namespace ImageBank.Web.Controllers
@@ -13,13 +14,11 @@ namespace ImageBank.Web.Controllers
             _imageRepository = imageRepository;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
             ViewBag.Message = "Welcome to Image Bank.";
 
-            var images = _imageRepository.GetAll().OrderByDescending(x => x.UploadDate);
-
-            return View(images);
+            return View(_imageRepository.GetAll().OrderByDescending(x => x.UploadDate).Take(3).ToList());
         }
     }
 }

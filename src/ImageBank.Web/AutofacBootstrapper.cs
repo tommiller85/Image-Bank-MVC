@@ -18,21 +18,13 @@ namespace ImageBank.Web
 
         private void ConfigureContainer(ContainerBuilder containerBuilder)
         {
+            #region Controllers
+
             containerBuilder.RegisterControllers(typeof (MvcApplication).Assembly);
 
-            containerBuilder.RegisterType<ImageProcessor>()
-                .As<IImageProcessor>();
+            #endregion
 
-            containerBuilder.RegisterType<ImageResizer>()
-                .As<IImageResizer>();
-
-            containerBuilder.RegisterType<ImageChunkSaver>()
-                .As<IImageChunkSaver>()
-                .SingleInstance();
-
-            containerBuilder.RegisterType<VirtualPathFinder>()
-                .As<IVirtualPathFinder>()
-                .SingleInstance();
+            #region Repositories
 
             containerBuilder.RegisterType<ImageBankContext>()
                 .AsSelf()
@@ -43,6 +35,26 @@ namespace ImageBank.Web
 
             containerBuilder.RegisterType<SettingRepository>()
                 .As<ISettingRepository>();
+
+            #endregion
+
+            #region Services
+
+            containerBuilder.RegisterType<ImageProcessor>()
+                .As<IImageProcessor>();
+
+            containerBuilder.RegisterType<MipMapGenerator>()
+                .As<IMipMapGenerator>();
+
+            containerBuilder.RegisterType<ImageChunkSaver>()
+                .As<IImageChunkSaver>()
+                .SingleInstance();
+
+            containerBuilder.RegisterType<VirtualPathFinder>()
+                .As<IVirtualPathFinder>()
+                .SingleInstance();
+
+            #endregion
         }
     }
 }

@@ -15,6 +15,9 @@ namespace ImageBank.Persistence
             var setting2 = new Setting { Key = "MediumImageRoot", Value = "~/Images/Upload/640x427" };
             context.Settings.Add(setting2);
 
+            var adminUser = new User {Username = "admin", Password = "admin"};
+            context.Users.Add(adminUser);
+
             context.SaveChanges();
         }
     }

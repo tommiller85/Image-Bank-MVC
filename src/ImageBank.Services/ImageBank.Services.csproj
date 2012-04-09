@@ -44,15 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account\AccountProvider.cs" />
+    <Compile Include="Account\IAccountProvider.cs" />
+    <Compile Include="Account\RegistrationResult.cs" />
     <Compile Include="ImageProcessing\IImageChunkSaver.cs" />
     <Compile Include="ImageProcessing\IImageProcessor.cs" />
-    <Compile Include="ImageProcessing\IImageResizer.cs" />
+    <Compile Include="ImageProcessing\IMipMapGenerator.cs" />
     <Compile Include="ImageProcessing\ImageChunk.cs" />
     <Compile Include="ImageProcessing\ImageChunkSaver.cs" />
     <Compile Include="ImageProcessing\ImageProcessor.cs" />
-    <Compile Include="ImageProcessing\ImageResizer.cs" />
+    <Compile Include="ImageProcessing\MipMapGenerator.cs" />
     <Compile Include="ImageProcessing\MipMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultBase.cs" />
     <Compile Include="Virtual\IVirtualPathFinder.cs" />
     <Compile Include="Virtual\VirtualPathFinder.cs" />
   </ItemGroup>

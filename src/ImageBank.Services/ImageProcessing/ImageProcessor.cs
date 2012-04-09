@@ -9,20 +9,20 @@ namespace ImageBank.Services.ImageProcessing
 {
     public class ImageProcessor : IImageProcessor
     {
-        private readonly IImageResizer _imageResizer;
+        private readonly IMipMapGenerator _mipMapGenerator;
         private readonly IImageRepository _imageRepository;
         private readonly ISettingRepository _settingRepository;
         private readonly IImageChunkSaver _imageChunkSaver;
         private readonly IVirtualPathFinder _virtualPathFinder;
 
         public ImageProcessor(
-            IImageResizer imageResizer,
+            IMipMapGenerator mipMapGenerator,
             IImageRepository imageRepository,
             ISettingRepository settingRepository,
             IImageChunkSaver imageChunkSaver,
             IVirtualPathFinder virtualPathFinder)
         {
-            _imageResizer = imageResizer;
+            _mipMapGenerator = mipMapGenerator;
             _imageRepository = imageRepository;
             _settingRepository = settingRepository;
             _imageChunkSaver = imageChunkSaver;
@@ -66,9 +66,9 @@ namespace ImageBank.Services.ImageProcessing
         {
             if (imageChunk.Chunks == 0 || imageChunk.Chunk == (imageChunk.Chunks - 1))
             {
-                ImageCodecInfo info = ImageResizer.ProcessCodecs("image/jpeg"); // todo: fix this
+                ImageCodecInfo info = MipMapGenerator.ProcessCodecs("image/jpeg"); // todo: fix this
 
-                _imageResizer.GenerateMipMap(
+                _mipMapGenerator.GenerateMipMap(
                     Path.Combine(_virtualPathFinder.ResolvePath(_settingRepository.OriginalImageRoot),
                                  imageChunk.SystemFilename),
                     new MipMap {Codec = info, Width = 640, Height = 427},

@@ -51,8 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControllerTests\AccountControllerTests.cs" />
     <Compile Include="ControllerTests\ImageControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceTests\AccountProviderTests.cs" />
     <Compile Include="ServiceTests\ImageProcessorTests.cs" />
   </ItemGroup>
   <ItemGroup>

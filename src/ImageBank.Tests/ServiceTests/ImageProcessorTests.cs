@@ -94,14 +94,14 @@ namespace ImageBank.Tests.ServiceTests
         [Test]
         public void ProcessImageChunk_WhenChunkIsNotEqualToOneLessThanChunks_ShouldNotGenerateMipMap()
         {
-            var mockImageResizer = new Mock<IImageResizer>();
-            mockImageResizer.Setup(x => x.GenerateMipMap(string.Empty, new MipMap(), string.Empty, string.Empty)).
+            var mockMipMapGenerator = new Mock<IMipMapGenerator>();
+            mockMipMapGenerator.Setup(x => x.GenerateMipMap(string.Empty, new MipMap(), string.Empty, string.Empty)).
                 Verifiable();
-            var imageProcessor = GetImageProcessor(mockImageResizer.Object);
+            var imageProcessor = GetImageProcessor(mockMipMapGenerator.Object);
 
             imageProcessor.ProcessImageChunk(new ImageChunk {Chunk = 0, Chunks = 3, SystemFilename = "foo.jpg"});
 
-            mockImageResizer.Verify(
+            mockMipMapGenerator.Verify(
                 x => x.GenerateMipMap(It.IsAny<string>(), It.IsAny<MipMap>(), It.IsAny<string>(), It.IsAny<string>()),
                 Times.Never());
         }
@@ -109,40 +109,40 @@ namespace ImageBank.Tests.ServiceTests
         [Test]
         public void ProcessImageChunk_WhenChunkIsEqualToOneLessThanChunks_ShouldGenerateMipMap()
         {
-            var mockImageResizer = new Mock<IImageResizer>();
-            mockImageResizer.Setup(x => x.GenerateMipMap(string.Empty, new MipMap(), string.Empty, string.Empty)).
+            var mockMipMapGenerator = new Mock<IMipMapGenerator>();
+            mockMipMapGenerator.Setup(x => x.GenerateMipMap(string.Empty, new MipMap(), string.Empty, string.Empty)).
                 Verifiable();
-            var imageProcessor = GetImageProcessor(mockImageResizer.Object);
+            var imageProcessor = GetImageProcessor(mockMipMapGenerator.Object);
 
             imageProcessor.ProcessImageChunk(new ImageChunk {Chunk = 1, Chunks = 2, SystemFilename = "foo.jpg"});
 
-            mockImageResizer.Verify(
+            mockMipMapGenerator.Verify(
                 x => x.GenerateMipMap(It.IsAny<string>(), It.IsAny<MipMap>(), It.IsAny<string>(), It.IsAny<string>()));
         }
 
         [Test]
         public void ProcessImageChunk_WhenChunkAndChunksAreEqualToZero_ShouldGenerateMipMap()
         {
-            var mockImageResizer = new Mock<IImageResizer>();
-            mockImageResizer.Setup(x => x.GenerateMipMap(string.Empty, new MipMap(), string.Empty, string.Empty)).
+            var mockMipMapGenerator = new Mock<IMipMapGenerator>();
+            mockMipMapGenerator.Setup(x => x.GenerateMipMap(string.Empty, new MipMap(), string.Empty, string.Empty)).
                 Verifiable();
-            var imageProcessor = GetImageProcessor(mockImageResizer.Object);
+            var imageProcessor = GetImageProcessor(mockMipMapGenerator.Object);
 
             imageProcessor.ProcessImageChunk(new ImageChunk {Chunk = 0, Chunks = 0, SystemFilename = "foo.jpg"});
 
-            mockImageResizer.Verify(
+            mockMipMapGenerator.Verify(
                 x => x.GenerateMipMap(It.IsAny<string>(), It.IsAny<MipMap>(), It.IsAny<string>(), It.IsAny<string>()),
                 Times.AtLeastOnce());
         }
 
         private ImageProcessor GetImageProcessor(
-            IImageResizer imageResizer = null,
+            IMipMapGenerator mipMapGenerator = null,
             IImageRepository imageRepository = null,
             ISettingRepository settingRepository = null,
             IImageChunkSaver imageChunkSaver = null,
             IVirtualPathFinder virtualPathFinder = null)
         {
-            var mockImageResizer = new Mock<IImageResizer>();
+            var mockMipMapGenerator = new Mock<IMipMapGenerator>();
             var mockImageRepository = new Mock<IImageRepository>();
 
             var mockSettingRepository = new Mock<ISettingRepository>();
@@ -157,7 +157,7 @@ namespace ImageBank.Tests.ServiceTests
             mockVirtualPathFinder.Setup(x => x.ResolvePath("~/Images/Upload/640x427")).Returns(
                 "C:\\WebRoot\\Images\\Upload\\640x427");
 
-            var imageProcessor = new ImageProcessor(imageResizer ?? mockImageResizer.Object,
+            var imageProcessor = new ImageProcessor(mipMapGenerator ?? mockMipMapGenerator.Object,
                                                     imageRepository ?? mockImageRepository.Object,
                                                     settingRepository ?? mockSettingRepository.Object,
                                                     imageChunkSaver ?? mockImageChunkSaver.Object,

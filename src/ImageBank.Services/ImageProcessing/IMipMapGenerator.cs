@@ -1,6 +1,6 @@
 ﻿namespace ImageBank.Services.ImageProcessing
 {
-    public interface IImageResizer
+    public interface IMipMapGenerator
     {
         void GenerateMipMap(string imagePathToResize, MipMap map, string uploadDir, string filename);
     }

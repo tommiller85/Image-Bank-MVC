@@ -3,23 +3,22 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Upload Images</h2>
+<h3>Upload Images</h3>
+
+<p>Select Add files to select images for upload and when you're ready click Start Uploading.</p>
 
 <div id="html5_uploader">You browser doesn't support native upload. Try Firefox 3 or Safari 4.</div>
 
 <script type="text/javascript">
     $(function () {
         $("#html5_uploader").pluploadQueue({
-            // General settings
             runtimes: 'html5',
             url: 'upload',
             max_file_size: '15mb',
-            chunk_size: '1mb',// IF I WANT TO USE CHUNKING NEED TO REFACTOR UPLOAD ACTION METHOD
+            chunk_size: '1mb',
             unique_names: true,
             filters: [
-		    { title: "Image files", extensions: "jpg,gif,png" } ]//,
-            // Resize images on clientside if we can
-            //resize: { width: 640, height: 427, quality: 100 }
+		    { title: "Image files", extensions: "jpg,gif,png" } ]
         });
     });
 </script>
