@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
 using ImageBank.Persistence;
+using ImageBank.Services.Account;
 using ImageBank.Services.ImageProcessing;
 using ImageBank.Services.Virtual;
 
@@ -36,6 +37,9 @@ namespace ImageBank.Web
             containerBuilder.RegisterType<SettingRepository>()
                 .As<ISettingRepository>();
 
+            containerBuilder.RegisterType<UserRepository>()
+                .As<IUserRepository>();
+
             #endregion
 
             #region Services
@@ -53,6 +57,9 @@ namespace ImageBank.Web
             containerBuilder.RegisterType<VirtualPathFinder>()
                 .As<IVirtualPathFinder>()
                 .SingleInstance();
+
+            containerBuilder.RegisterType<AccountProvider>()
+                .As<IAccountProvider>();
 
             #endregion
         }
