@@ -2,7 +2,7 @@
 
 namespace ImageBank.Persistence
 {
-    public class ImageRepository : GenericRepository<ImageBankContext, Image>, IImageRepository
+    public class ImageRepository : GenericRepository<ImageBankContext, Image, int>, IImageRepository
     {
         public ImageRepository(ImageBankContext ctx)
             : base(ctx)

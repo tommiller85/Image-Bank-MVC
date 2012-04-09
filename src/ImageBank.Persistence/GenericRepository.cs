@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ImageBank.Persistence
 {
-    public abstract class GenericRepository<TContext, TEntity> : IGenericRepository<TEntity>, IDisposable where TEntity : class where TContext : DbContext
+    public abstract class GenericRepository<TContext, TEntity, TKey> : IGenericRepository<TEntity, TKey>, IDisposable where TContext : DbContext where TEntity : class where TKey : struct
     {
         public TContext Context { get; private set; }
 
@@ -19,7 +19,7 @@ namespace ImageBank.Persistence
             return query;
         }
 
-        public virtual TEntity Get(int id)
+        public virtual TEntity Get(TKey id)
         {
             var query = Context.Set<TEntity>().Find(id);
             return query;
@@ -43,7 +43,7 @@ namespace ImageBank.Persistence
             Context.SaveChanges();
         }
 
-        public virtual void Delete(int id)
+        public virtual void Delete(TKey id)
         {
             var entity = Get(id);
             Context.Set<TEntity>().Remove(entity);

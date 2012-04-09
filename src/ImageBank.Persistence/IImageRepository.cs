@@ -2,7 +2,7 @@
 
 namespace ImageBank.Persistence
 {
-    public interface IImageRepository : IGenericRepository<Image>
+    public interface IImageRepository : IGenericRepository<Image, int>
     {
     }
 }

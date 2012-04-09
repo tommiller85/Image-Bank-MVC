@@ -3,7 +3,7 @@ using ImageBank.Core;
 
 namespace ImageBank.Persistence
 {
-    public class SettingRepository : GenericRepository<ImageBankContext, Setting>, ISettingRepository
+    public class SettingRepository : GenericRepository<ImageBankContext, Setting, int>, ISettingRepository
     {
         public SettingRepository(ImageBankContext ctx)
             : base(ctx)
